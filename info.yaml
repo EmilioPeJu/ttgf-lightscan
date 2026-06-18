@@ -5,7 +5,7 @@ project:
   discord: ""
   description: "Position acquisition system for a scan using a motor and a camera with trigger"
   language: "VHDL"
-  clock_hz: 50000000
+  clock_hz: 12000000
 
   tiles: "1x1"
 
@@ -17,14 +17,22 @@ project:
   # Don't forget to also update `PROJECT_SOURCES` in test/Makefile.
   source_files:
     - "tt_um_emiliopeju_lightscan_top.vhdl"
+    - "bissc.vhdl"
+    - "bissc_capture.vhdl"
+    - "bissc_clock.vhdl"
+    - "bissc_extended_clock.vhdl"
+    - "bissc_request.vhdl"
+    - "spi_registers.vhdl"
+    - "sync_bit.vhdl"
+    - "deglitcher.vhdl"
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 # This section is for the datasheet/website. Use descriptive names (e.g., RX, TX, MOSI, SCL, SEG_A, etc.).
 pinout:
   # Inputs
-  ui[0]: ""
-  ui[1]: ""
-  ui[2]: ""
+  ui[0]: "SPI CS_N"
+  ui[1]: "SPI CLK"
+  ui[2]: "SPI MOSI"
   ui[3]: ""
   ui[4]: ""
   ui[5]: ""
@@ -35,15 +43,15 @@ pinout:
   uo[0]: ""
   uo[1]: ""
   uo[2]: ""
-  uo[3]: ""
+  uo[3]: "SPI MISO"
   uo[4]: ""
   uo[5]: ""
   uo[6]: ""
   uo[7]: ""
 
   # Bidirectional pins
-  uio[0]: ""
-  uio[1]: ""
+  uio[0]: "BISS-C CLK"
+  uio[1]: "BISS-C DATA"
   uio[2]: ""
   uio[3]: ""
   uio[4]: ""
