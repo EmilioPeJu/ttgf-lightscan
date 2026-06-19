@@ -40,8 +40,8 @@ pinout:
   ui[7]: ""
 
   # Outputs
-  uo[0]: ""
-  uo[1]: ""
+  uo[0]: "RUNNING"
+  uo[1]: "PULSE"
   uo[2]: ""
   uo[3]: "SPI MISO"
   uo[4]: ""
