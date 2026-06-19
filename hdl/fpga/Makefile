@@ -22,5 +22,9 @@ synth_stat: $(VHDL_FILES)
 flash: $(TARGET)
 	mpremote cp $< :bitstreams
 
+build/top.v: $(VHDL_FILES)
+	cat $^ > build/top.vhdl
+	ghdl synth -Wno-binding --std=08 --out=verilog build/top.vhdl -e tt_fpga_top > $@
+
 clean:
 	rm -rf build/*
