@@ -3,6 +3,6 @@ preferred_case = "lower"
 
 [libraries]
 hwtest.files = [
-  './src/*.vhdl',
-  './src/fpga/*.vhdl',
+  './hdl/*.vhd',
+  './hdl/fpga/*.vhd',
 ]

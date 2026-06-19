@@ -28,15 +28,19 @@ architecture rtl of tt_um_emiliopeju_lightscan is
     signal bissc_go : std_ulogic;
     signal acq_start : std_ulogic;
     signal trig : std_ulogic;
+    signal trig_from_pulser : std_ulogic;
+    signal override_trig : std_ulogic;
     signal trig_period : unsigned(31 downto 0);
     signal ntrig : unsigned(31 downto 0);
     signal width : unsigned(25 downto 0);
     signal bissc_half_clk_period : unsigned(7 downto 0);
     signal bissc_n_rising_edges : unsigned(5 downto 0);
 begin
-    uio_oe <= "00000001";
+    uio_oe(1 downto 0) <= "01";
     rst <= not rst_n;
     bissc_go <= pos_req or trig;
+    uo_out(2) <= pos_valid;
+    trig <= trig_from_pulser or override_trig;
 
     reg_inst: entity work.spi_registers port map (
         clk_i => clk,
@@ -45,7 +49,9 @@ begin
         sck_i => ui_in(1),
         rx_i => ui_in(2),
         tx_o => uo_out(3),
-        pos_i => pos(31 downto 0),
+        trig_i => trig,
+        override_trig_o => override_trig,
+        pos_i => pos,
         pos_valid_i => pos_valid,
         error_event_i => pos_err,
         ntrig_o => ntrig,
@@ -54,7 +60,10 @@ begin
         pos_req_o => pos_req,
         acq_start_o => acq_start,
         bissc_half_clk_period_o => bissc_half_clk_period,
-        bissc_n_rising_edges_o => bissc_n_rising_edges
+        bissc_n_rising_edges_o => bissc_n_rising_edges,
+        io_dir_o => uio_oe(7 downto 2),
+        io_out_o => uio_out(7 downto 2),
+        io_in_i => uio_in(7 downto 2)
     );
 
     pulsed_trigger_inst: entity work.pulsed_trigger port map (
@@ -65,7 +74,7 @@ begin
         trig_period_i => trig_period,
         ntrig_i => ntrig,
         width_i => width,
-        trig_o => trig,
+        trig_o => trig_from_pulser,
         pulse_o => uo_out(1)
     );
 

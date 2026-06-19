@@ -10,7 +10,9 @@ entity spi_registers is
         sck_i : in std_ulogic;
         rx_i : in std_ulogic;
         tx_o : out std_ulogic;
-        pos_i : in std_ulogic_vector(31 downto 0);
+        trig_i : in std_ulogic;
+        override_trig_o : out std_ulogic;
+        pos_i : in std_ulogic_vector(50 downto 0);
         pos_valid_i : in std_ulogic;
         error_event_i : in std_ulogic;
         ntrig_o : out unsigned(31 downto 0);
@@ -19,7 +21,10 @@ entity spi_registers is
         pos_req_o : out std_ulogic;
         acq_start_o : out std_ulogic;
         bissc_half_clk_period_o : out unsigned(7 downto 0);
-        bissc_n_rising_edges_o : out unsigned(5 downto 0)
+        bissc_n_rising_edges_o : out unsigned(5 downto 0);
+        io_dir_o : out std_ulogic_vector(5 downto 0);
+        io_out_o : out std_ulogic_vector(5 downto 0);
+        io_in_i : in std_ulogic_vector(5 downto 0)
     );
 end;
 
@@ -39,6 +44,9 @@ architecture rtl of spi_registers is
     signal n_over : unsigned(7 downto 0);
     signal n_pos : unsigned(15 downto 0);
     signal new_pos : std_ulogic;
+    signal io_out : std_ulogic_vector(5 downto 0);
+    signal io_dir : std_ulogic_vector(5 downto 0);
+    signal io_in : std_ulogic_vector(5 downto 0);
 begin
     sync_sck_inst : entity work.sync_bit port map (
         clk_i => clk_i,
@@ -87,6 +95,7 @@ begin
             sck_prev <= sck;
             pos_req_o <= '0';
             acq_start_o <= '0';
+            override_trig_o <= '0';
             if rst_i then
                 dataout <= (others => '0');
                 new_pos <= '0';
@@ -96,6 +105,9 @@ begin
                 width_o <= (others => '0');
                 bissc_half_clk_period_o <= (others => '0');
                 bissc_n_rising_edges_o <= (others => '0');
+                io_dir_o <= (others => '0');
+                io_out <= (others => '0');
+                io_out_o <= (others => '0');
             elsif cs_fall then
                 bit_counter <= (others => '0');
             elsif sck_rise then
@@ -105,11 +117,11 @@ begin
                 if bit_counter = 7 then
                     case next_datain(7 downto 0) is
                         when x"00" => -- Magic ID
-                            dataout <= x"80000001";
+                            dataout <= x"CAFEA51C";
                         when x"01" => -- Counters
                             dataout <= std_logic_vector(n_over & n_err & n_pos);
                         when x"02" => -- Position
-                            dataout <= pos_i;
+                            dataout <= pos_i(31 downto 0);
                             new_pos <= '0';
                         when x"03" => -- Trigger period
                             dataout <= std_logic_vector(trig_period_o);
@@ -126,6 +138,14 @@ begin
                             dataout(31 downto 6) <= (others => '0');
                             dataout(5 downto 0) <=
                                 std_logic_vector(bissc_n_rising_edges_o);
+                        when x"08" => -- Position (high bits)
+                            dataout(31 downto 0) <= pos_i(50 downto 19);
+                        when x"0a" => -- Synchronized Inputs
+                            dataout(31 downto 6) <= (others => '0');
+                            dataout(5 downto 0) <= io_in;
+                        when x"0b" => -- Current Inputs
+                            dataout(31 downto 6) <= (others => '0');
+                            dataout(5 downto 0) <= io_in_i;
                         when others =>
                             dataout <= (others => '0'); -- Default case
                     end case;
@@ -141,12 +161,21 @@ begin
                             bissc_half_clk_period_o <= unsigned(next_datain(7 downto 0));
                         when x"87" => -- BISS-C number of rising edges
                             bissc_n_rising_edges_o <= unsigned(next_datain(5 downto 0));
-                        when x"88" => -- Request position
-                            pos_req_o <= '1';
-                        when x"89" => -- Start acquisition
-                            acq_start_o <= '1';
+                        when x"88" =>
+                            -- Request position
+                            pos_req_o <= next_datain(0);
+                             -- Start acquisition
+                            acq_start_o <= next_datain(1);
+                            -- Manual trigger
+                            override_trig_o <= next_datain(2);
+                        when x"8a" => -- Synchronized Outputs
+                            io_out <= next_datain(5  downto 0);
+                            io_dir <= next_datain(13 downto 8);
+                        when x"8b" => -- Override Outputs
+                            io_out_o <= next_datain(5  downto 0);
+                            io_dir_o <= next_datain(13 downto 8);
                         when others =>
-                            null;
+                        null;
                     end case;
                 end if;
             elsif sck_fall then
@@ -158,6 +187,11 @@ begin
                 if new_pos then
                     n_over <= n_over + 1;
                 end if;
+            end if;
+            if trig_i then
+                io_out_o <= io_out;
+                io_dir_o <= io_dir;
+                io_in <= io_in_i;
             end if;
         end if;
     end process;
