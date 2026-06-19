@@ -27,11 +27,11 @@ begin
         variable next_initial_bits : std_ulogic_vector(2 downto 0);
     begin
         if rising_edge(clk_i) then
+            valid_o <= '0';
+            err_o <= '0';
             if rst_i then
                 state <= IDLE;
             else
-                valid_o <= '0';
-                err_o <= '0';
                 case state is
                     when IDLE =>
                         initial_bits <= (others => '0');

@@ -6,8 +6,7 @@ entity bissc is
     Port(
         clk_i : in std_ulogic;
         rst_i : in std_ulogic;
-        -- request period minus one
-        req_period_i : in unsigned(24 downto 0);
+        go_i  : in std_ulogic;
         -- half clock period minus one
         half_clk_period_i : in unsigned(7 downto 0);
         n_rising_edges_i : in unsigned(5 downto 0);
@@ -20,22 +19,14 @@ entity bissc is
 end;
 
 architecture arch of bissc is
-    signal req : std_ulogic;
     signal clock_done : std_ulogic;
     signal data : std_ulogic;
     signal samp : std_ulogic;
 begin
-    bissc_request_inst : entity work.bissc_request port map (
-        clk_i => clk_i,
-        rst_i => rst_i,
-        req_period_i => req_period_i,
-        req_o => req
-    );
-
     bissc_extended_clock_inst : entity work.bissc_extended_clock port map (
         clk_i => clk_i,
         rst_i => rst_i,
-        go_i => req,
+        go_i => go_i,
         done_o => clock_done,
         n_rising_edges_i => n_rising_edges_i,
         half_clk_period_i => half_clk_period_i,
@@ -48,7 +39,7 @@ begin
     bissc_capture_inst : entity work.bissc_capture port map (
         clk_i => clk_i,
         rst_i => rst_i,
-        go_i => req,
+        go_i => go_i,
         done_i => clock_done,
         samp_i => samp,
         data_i => data,

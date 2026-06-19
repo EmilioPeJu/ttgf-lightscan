@@ -11,7 +11,7 @@ entity bissc_clock is
         clk_i : in std_ulogic;
         rst_i : in std_ulogic;
         go_i : in std_ulogic;
-        done_o : out std_ulogic;
+        busy_o : out std_ulogic;
         -- number of bits minus one
         n_rising_edges_i : in unsigned(5 downto 0);
         -- half clock period minus one
@@ -33,15 +33,16 @@ begin
         if rising_edge(clk_i) then
             if rst_i then
                 clock_state <= IDLE;
+                busy_o <= '0';
             else
                 case clock_state is
                     when IDLE =>
-                        done_o <= '0';
                         rising_counter <= n_rising_edges_i;
                         clock_timer <= half_clk_period_i;
                         if go_i then
                             clock_state <= GEN;
                             clk_o <= not CLK_INITIAL_VALUE;
+                            busy_o <= '1';
                         else
                             clk_o <= CLK_INITIAL_VALUE;
                         end if;
@@ -55,7 +56,7 @@ begin
                                         clock_state <= DEAD;
                                     else
                                         clock_state <= IDLE;
-                                        done_o <= '1';
+                                        busy_o <= '0';
                                     end if;
                                 else
                                     rising_counter <= rising_counter - 1;
@@ -67,7 +68,7 @@ begin
                     when DEAD =>
                         if data_i or go_i then
                             clock_state <= IDLE;
-                            done_o <= '1';
+                            busy_o <= '0';
                         end if;
                     when others =>
                         null;
