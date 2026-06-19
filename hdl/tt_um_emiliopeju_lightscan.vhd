@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity tt_um_emiliopeju_lightscan_top is
+entity tt_um_emiliopeju_lightscan is
     port (
         clk    : in  std_ulogic; -- clock
 
@@ -17,7 +17,7 @@ entity tt_um_emiliopeju_lightscan_top is
     );
 end;
 
-architecture rtl of tt_um_emiliopeju_lightscan_top is
+architecture rtl of tt_um_emiliopeju_lightscan is
     signal pos : std_ulogic_vector(50 downto 0);
     signal pos_valid : std_ulogic;
     signal pos_err : std_ulogic;
