@@ -2,8 +2,8 @@
 project:
   title: "Lightscan"
   author: "Emilio Perez Juarez"
-  discord: ""
-  description: "Position acquisition system for a scan using a motor and a camera with trigger"
+  discord: "emiliopeju"
+  description: "BISS-C Position acquisition system for a scan with pulsed output."
   language: "Verilog"
   clock_hz: 12000000
 
