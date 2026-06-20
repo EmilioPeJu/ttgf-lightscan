@@ -1382,7 +1382,7 @@ module spi_registers_Brtl(clk_i, rst_i, cs_i, sck_i, rx_i, trig_i, pos_i, pos_va
   assign _124_ = datain[38:31] == 8'h85;
   assign _125_ = datain[38:31] == 8'h86;
   assign _126_ = datain[38:31] == 8'h87;
-  assign _127_ = datain[38:31] == 8'h88;
+  assign _127_ = datain[38:31] == 8'h89;
   assign _128_ = datain[38:31] == 8'h8a;
   assign _129_ = datain[38:31] == 8'h8b;
   function [0:0] \:198 ;

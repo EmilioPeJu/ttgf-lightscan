@@ -161,7 +161,7 @@ begin
                             bissc_half_clk_period_o <= unsigned(next_datain(7 downto 0));
                         when x"87" => -- BISS-C number of rising edges
                             bissc_n_rising_edges_o <= unsigned(next_datain(5 downto 0));
-                        when x"88" =>
+                        when x"89" =>
                             -- Request position
                             pos_req_o <= next_datain(0);
                              -- Start acquisition
