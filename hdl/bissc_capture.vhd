@@ -18,7 +18,7 @@ end;
 
 architecture rtl of bissc_capture is
     type state_type is (IDLE, WAIT_START, CAPTURE_POS);
-    signal state : state_type := IDLE;
+    signal state : state_type;
     signal initial_bits : std_ulogic_vector(2 downto 0);
     signal crc : std_ulogic_vector(5 downto 0);
     signal shift_pos : std_ulogic_vector(58 downto 0);

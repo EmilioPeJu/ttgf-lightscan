@@ -24,7 +24,6 @@ architecture rtl of tt_um_emiliopeju_lightscan is
     signal pos_req : std_ulogic;
     signal rst : std_ulogic;
     signal biss_data_sync : std_ulogic;
-    signal biss_data_sync_deglitched : std_ulogic;
     signal bissc_go : std_ulogic;
     signal acq_start : std_ulogic;
     signal trig : std_ulogic;
@@ -82,12 +81,6 @@ begin
         clk_i => clk,
         bit_i => uio_in(1),
         bit_o => biss_data_sync
-    );
-
-    deglitcher_inst: entity work.deglitcher port map (
-        clk_i => clk,
-        bit_i => biss_data_sync,
-        bit_o => biss_data_sync_deglitched
     );
 
     bissc_inst: entity work.bissc port map (
