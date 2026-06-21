@@ -4,14 +4,18 @@ PCF=fabricfox.pcf
 SDC=fabricfox.sdc
 TARGET=build/tt_um_emiliopeju_lightscan.bin
 JSON=build/tt_um_emiliopeju_lightscan.json
+VERILOG_FILES=../../src/tt_um_emiliopeju_lightscan.v tt_fpga_top.v
 
-$(TARGET):  $(VHDL_FILES) $(PCF) $(SDC)
+$(TARGET):  $(VERILOG_FILE) $(PCF) $(SDC)
 	mkdir -p build
-	yosys -p "ghdl --std=08 $(VHDL_FILES) -e $(ENTITY); synth_ice40 -json $(JSON)" && \
+	yosys -p "read_verilog -sv $(VERILOG_FILES); synth_ice40 -top $(ENTITY) -json $(JSON)" && \
 	nextpnr-ice40 --pcf-allow-unconstrained \
         --up5k --package sg48 --freq 12 \
         --pcf $(PCF) --sdc $(SDC) --json $(JSON) --asc $@.asc && \
         icepack $@.asc $@
+
+$(VERILOG_FILE): $(VHDL_FILES)
+	make -C ..
 
 synth_show: $(VHDL_FILES)
 	yosys -p "ghdl --std=08 $(VHDL_FILES) -e $(ENTITY); proc; opt; show -colors 2 -width -signed -format dot -viewer xdot"
