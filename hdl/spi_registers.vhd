@@ -31,8 +31,6 @@ end;
 architecture rtl of spi_registers is
     signal dataout : std_ulogic_vector(31 downto 0);
     signal datain : std_ulogic_vector(39 downto 0);
-    signal cs_prev : std_ulogic;
-    signal cs_fall : std_ulogic;
     signal sck_prev : std_ulogic;
     signal sck_fall : std_ulogic;
     signal sck_rise : std_ulogic;
@@ -66,7 +64,6 @@ begin
         bit_o => rx
     );
 
-    cs_fall <= cs_prev and not cs;
     sck_fall <= sck_prev and not sck;
     sck_rise <= not sck_prev and sck;
 
@@ -91,7 +88,6 @@ begin
         variable next_datain : std_ulogic_vector(39 downto 0);
     begin
         if rising_edge(clk_i) then
-            cs_prev <= cs;
             sck_prev <= sck;
             pos_req_o <= '0';
             acq_start_o <= '0';
@@ -108,7 +104,7 @@ begin
                 io_dir_o <= (others => '0');
                 io_out <= (others => '0');
                 io_out_o <= (others => '0');
-            elsif cs_fall then
+            elsif cs then
                 bit_counter <= (others => '0');
             elsif sck_rise then
                 bit_counter <= bit_counter + 1;
