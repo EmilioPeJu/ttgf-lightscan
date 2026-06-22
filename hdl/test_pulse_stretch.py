@@ -2,7 +2,7 @@
 import cocotb
 
 from cocotb.clock import Clock
-from cocotb.triggers import RisingEdge, ClockCycles
+from cocotb.triggers import RisingEdge
 
 from common import top_path, run_test, assert_value_ticks
 
@@ -39,5 +39,5 @@ async def gen_trigger(dut, width):
 
 def test_trigger_generator():
     run_test('test_pulse_stretch', 'pulse_stretch', [
-        top_path / 'src' / 'pulse_stretch.vhdl',
+        top_path / 'hdl' / 'pulse_stretch.vhd',
     ])

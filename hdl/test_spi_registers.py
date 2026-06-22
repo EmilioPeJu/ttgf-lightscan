@@ -4,7 +4,7 @@ import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import RisingEdge, ClockCycles
 
-from common import top_path, run_test, assert_value_ticks
+from common import top_path, run_test
 
 
 async def reset(dut):

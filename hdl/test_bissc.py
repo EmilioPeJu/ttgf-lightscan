@@ -2,11 +2,106 @@
 import cocotb
 
 from cocotb.clock import Clock
-from cocotb.triggers import RisingEdge, ClockCycles, Timer
-from cocotb_tools.runner import get_runner
-from cocotb.utils import get_sim_time
+from cocotb.triggers import RisingEdge, ClockCycles
+from enum import Enum
 
 from common import top_path, run_test
+
+
+async def wait_for_pos_ready(dut):
+    while True:
+        await RisingEdge(dut.clk_i)
+        if dut.valid_o.value:
+            break
+
+
+def bissc_crc(value, nbits):
+    # example: bissc_crc(0b0001_0000010000_11, 16) == 0x30
+    crc = 0
+    for i in range(nbits-1, -1, -1):
+        bit = (value >> i) & 1
+        crc <<= 1
+        crc |=  bit
+        if crc & 0x40:
+            crc ^= 0x43
+
+    for i in range(6):
+        crc <<= 1
+        if crc & 0x40:
+            crc ^= 0x43
+    return (~crc) & 0x3f
+
+
+class BISSCState(Enum):
+    IDLE = 0
+    SENDING = 1
+    DEADTIME = 2
+
+
+class BISSCSlave:
+    def __init__(self, dut):
+        self.dut = dut
+        self.clk = dut.clk_i
+        self.pos = 0
+        self.pos_nbits = 14
+        self.deadtime = 10
+        self.bissc_data = 1
+
+    @property
+    def bissc_clk(self):
+        return 1 if self.dut.clk_o.value else 0
+
+    @property
+    def bissc_data(self):
+        return 1 if self.dut.data_i.value else 0
+
+    @bissc_data.setter
+    def bissc_data(self, value):
+        self.dut.data_i.value = 1 if value else 0
+
+    def start(self):
+        cocotb.start_soon(self.run())
+
+    async def run(self):
+        state = BISSCState.IDLE
+        bissc_clk = self.bissc_clk
+        bissc_clk_prev = bissc_clk
+        index = 0
+        while True:
+            await RisingEdge(self.clk)
+            bissc_clk_prev = bissc_clk
+            bissc_clk = self.bissc_clk
+            match state:
+                case BISSCState.IDLE:
+                    index = 0
+                    if not self.bissc_clk:
+                        state = BISSCState.SENDING
+                case BISSCState.SENDING:
+                    if not bissc_clk_prev and bissc_clk:
+                        match index:
+                            case 0:
+                                left = self.pos_nbits + 2 + 6
+                                pos_with_status = (self.pos << 2) | 0x3
+                                data = (pos_with_status << 6) | \
+                                        bissc_crc(pos_with_status, self.pos_nbits + 2)
+                            case 1:
+                                self.bissc_data = 0
+                            case 2:
+                                self.bissc_data = 1
+                            case 3:
+                                self.bissc_data = 0
+                            case _:
+                                self.bissc_data = (data >> (left-1)) & 1
+                                left -= 1
+                                if left == 0:
+                                    state = BISSCState.DEADTIME
+                        index += 1
+
+                case BISSCState.DEADTIME:
+                    self.bissc_data = 0
+                    await ClockCycles(self.clk, self.deadtime)
+                    self.bissc_data = 1
+                    state = BISSCState.IDLE
 
 
 async def reset(dut):
@@ -17,45 +112,30 @@ async def reset(dut):
     await RisingEdge(dut.clk_i)
 
 
-def iter_dw_top_bits(value, nbits):
-    for i in range(nbits):
-        yield (value >> (31 - i)) & 1
-
-
-async def send_test_pos(dut, raw_data, nbits):
-    for bit in iter_dw_top_bits(raw_data, nbits):
-        await RisingEdge(dut.clk_o)
-        await Timer(3, 'ns')
-        print(f'{get_sim_time('ns')} Sending bit {bit}')
-        dut.data_i.value = bit
-
-    dut.data_i.value = 0
-    await Timer(60, 'ns')
-    dut.data_i.value = 1
-    await RisingEdge(dut.clk_i)
-
-
 @cocotb.test()
-async def delay_timer(dut):
+async def single_position(dut):
     cocotb.start_soon(Clock(dut.clk_i, 1, 'ns').start(start_high=False))
     # latch, ack, start, cds, 22 bits, back to idle
     dut.n_rising_edges_i.value = 26
     dut.half_clk_period_i.value = 5
     await reset(dut)
-    
-    # Test point
-    #   Raw: d0821e00 t: 28.1 turns 1, pos 16, extra: 1111000000000
-    cocotb.start_soon(send_test_pos(dut, 0xd0821e00, 26))
+    await ClockCycles(dut.clk_i, 2)
+    bissc = BISSCSlave(dut)
+    bissc.start()
+    # Test position
+    bissc.pos = 0x410
     dut.go_i.value = 1
     await RisingEdge(dut.clk_i)
     dut.go_i.value = 0
-    await ClockCycles(dut.clk_i, 512)
+    await wait_for_pos_ready(dut)
+    assert dut.pos_o.value == 0x410, \
+        f"Expected position {bissc.pos}, got {dut.pos_o.value}"
 
 
 def test_bissc():
     run_test('test_bissc', 'bissc', [
-        top_path / 'src' / 'bissc.vhdl',
-        top_path / 'src' / 'bissc_clock.vhdl',
-        top_path / 'src' / 'bissc_extended_clock.vhdl',
-        top_path / 'src' / 'bissc_capture.vhdl',
+        top_path / 'hdl' / 'bissc.vhd',
+        top_path / 'hdl' / 'bissc_clock.vhd',
+        top_path / 'hdl' / 'bissc_extended_clock.vhd',
+        top_path / 'hdl' / 'bissc_capture.vhd',
     ])

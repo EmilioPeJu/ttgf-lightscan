@@ -39,5 +39,5 @@ async def gen_trigger(dut):
 
 def test_pulsed_trigger():
     run_test('test_pulsed_trigger', 'pulsed_trigger', [
-        top_path / 'src' / 'pulsed_trigger.vhdl',
+        top_path / 'hdl' / 'pulsed_trigger.vhd',
     ])

@@ -41,5 +41,5 @@ async def gen_trig(dut, ntrig, trig_period):
 
 def test_trig_generator():
     run_test('test_trigger_generator', 'trigger_generator', [
-        top_path / 'src' / 'trigger_generator.vhdl',
+        top_path / 'hdl' / 'trigger_generator.vhd',
     ])
