@@ -101,6 +101,7 @@ begin
                 width_o <= (others => '0');
                 bissc_half_clk_period_o <= (others => '0');
                 bissc_n_rising_edges_o <= (others => '0');
+                io_dir <= (others => '0');
                 io_dir_o <= (others => '0');
                 io_out <= (others => '0');
                 io_out_o <= (others => '0');

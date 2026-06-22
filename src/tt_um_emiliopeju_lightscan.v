@@ -151,125 +151,125 @@ module bissc_capture_Brtl(clk_i, rst_i, go_i, samp_i, data_i, done_i, pos_o, val
   assign _19_ = done_i ? _16_ : 1'h0;
   assign _20_ = done_i ? 2'h0 : state;
   assign _21_ = state == 2'h2;
-  function [50:0] \:611 ;
+  function [50:0] \:612 ;
     input [50:0] a;
     input [152:0] b;
     input [2:0] s;
     (* parallel_case *)
     casez (s)
       3'b??1:
-        \:611  = b[50:0];
+        \:612  = b[50:0];
       3'b?1?:
-        \:611  = b[101:51];
+        \:612  = b[101:51];
       3'b1??:
-        \:611  = b[152:102];
+        \:612  = b[152:102];
       default:
-        \:611  = a;
+        \:612  = a;
     endcase
   endfunction
-  assign _22_ = \:611 (51'hxxxxxxxxxxxxx, { _17_, _36_, _36_ }, { _21_, _08_, _01_ });
-  function [0:0] \:614 ;
+  assign _22_ = \:612 (51'hxxxxxxxxxxxxx, { _17_, _36_, _36_ }, { _21_, _08_, _01_ });
+  function [0:0] \:615 ;
     input [0:0] a;
     input [2:0] b;
     input [2:0] s;
     (* parallel_case *)
     casez (s)
       3'b??1:
-        \:614  = b[0:0];
+        \:615  = b[0:0];
       3'b?1?:
-        \:614  = b[1:1];
+        \:615  = b[1:1];
       3'b1??:
-        \:614  = b[2:2];
+        \:615  = b[2:2];
       default:
-        \:614  = a;
+        \:615  = a;
     endcase
   endfunction
-  assign _23_ = \:614 (1'hx, { _18_, 2'h0 }, { _21_, _08_, _01_ });
-  function [0:0] \:617 ;
+  assign _23_ = \:615 (1'hx, { _18_, 2'h0 }, { _21_, _08_, _01_ });
+  function [0:0] \:618 ;
     input [0:0] a;
     input [2:0] b;
     input [2:0] s;
     (* parallel_case *)
     casez (s)
       3'b??1:
-        \:617  = b[0:0];
+        \:618  = b[0:0];
       3'b?1?:
-        \:617  = b[1:1];
+        \:618  = b[1:1];
       3'b1??:
-        \:617  = b[2:2];
+        \:618  = b[2:2];
       default:
-        \:617  = a;
+        \:618  = a;
     endcase
   endfunction
-  assign _24_ = \:617 (1'hx, { _19_, _02_, 1'h0 }, { _21_, _08_, _01_ });
-  function [1:0] \:619 ;
+  assign _24_ = \:618 (1'hx, { _19_, _02_, 1'h0 }, { _21_, _08_, _01_ });
+  function [1:0] \:620 ;
     input [1:0] a;
     input [5:0] b;
     input [2:0] s;
     (* parallel_case *)
     casez (s)
       3'b??1:
-        \:619  = b[1:0];
+        \:620  = b[1:0];
       3'b?1?:
-        \:619  = b[3:2];
+        \:620  = b[3:2];
       3'b1??:
-        \:619  = b[5:4];
+        \:620  = b[5:4];
       default:
-        \:619  = a;
+        \:620  = a;
     endcase
   endfunction
-  assign _25_ = \:619 (2'hx, { _20_, _05_, _00_ }, { _21_, _08_, _01_ });
-  function [2:0] \:622 ;
+  assign _25_ = \:620 (2'hx, { _20_, _05_, _00_ }, { _21_, _08_, _01_ });
+  function [2:0] \:623 ;
     input [2:0] a;
     input [8:0] b;
     input [2:0] s;
     (* parallel_case *)
     casez (s)
       3'b??1:
-        \:622  = b[2:0];
+        \:623  = b[2:0];
       3'b?1?:
-        \:622  = b[5:3];
+        \:623  = b[5:3];
       3'b1??:
-        \:622  = b[8:6];
+        \:623  = b[8:6];
       default:
-        \:622  = a;
+        \:623  = a;
     endcase
   endfunction
-  assign _26_ = \:622 (3'hx, { initial_bits, _07_, 3'h0 }, { _21_, _08_, _01_ });
-  function [5:0] \:625 ;
+  assign _26_ = \:623 (3'hx, { initial_bits, _07_, 3'h0 }, { _21_, _08_, _01_ });
+  function [5:0] \:626 ;
     input [5:0] a;
     input [17:0] b;
     input [2:0] s;
     (* parallel_case *)
     casez (s)
       3'b??1:
-        \:625  = b[5:0];
+        \:626  = b[5:0];
       3'b?1?:
-        \:625  = b[11:6];
+        \:626  = b[11:6];
       3'b1??:
-        \:625  = b[17:12];
+        \:626  = b[17:12];
       default:
-        \:625  = a;
+        \:626  = a;
     endcase
   endfunction
-  assign _27_ = \:625 (6'hxx, { _11_, crc, 6'h00 }, { _21_, _08_, _01_ });
-  function [58:0] \:628 ;
+  assign _27_ = \:626 (6'hxx, { _11_, crc, 6'h00 }, { _21_, _08_, _01_ });
+  function [58:0] \:629 ;
     input [58:0] a;
     input [176:0] b;
     input [2:0] s;
     (* parallel_case *)
     casez (s)
       3'b??1:
-        \:628  = b[58:0];
+        \:629  = b[58:0];
       3'b?1?:
-        \:628  = b[117:59];
+        \:629  = b[117:59];
       3'b1??:
-        \:628  = b[176:118];
+        \:629  = b[176:118];
       default:
-        \:628  = a;
+        \:629  = a;
     endcase
   endfunction
-  assign _28_ = \:628 (59'hxxxxxxxxxxxxxxx, { _12_, shift_pos, 59'h000000000000000 }, { _21_, _08_, _01_ });
+  assign _28_ = \:629 (59'hxxxxxxxxxxxxxxx, { _12_, shift_pos, 59'h000000000000000 }, { _21_, _08_, _01_ });
   assign _29_ = rst_i ? _36_ : _22_;
   assign _30_ = rst_i ? 1'h0 : _23_;
   assign _31_ = rst_i ? 1'h0 : _24_;
@@ -387,23 +387,6 @@ module bissc_clock_Brtl_688934845f22049cb14668832efa33d45013b6b9(clk_i, rst_i, g
   assign _23_ = _22_ ? 1'h0 : _36_;
   assign _24_ = _22_ ? 2'h0 : clock_state;
   assign _25_ = clock_state == 2'h2;
-  function [0:0] \:771 ;
-    input [0:0] a;
-    input [2:0] b;
-    input [2:0] s;
-    (* parallel_case *)
-    casez (s)
-      3'b??1:
-        \:771  = b[0:0];
-      3'b?1?:
-        \:771  = b[1:1];
-      3'b1??:
-        \:771  = b[2:2];
-      default:
-        \:771  = a;
-    endcase
-  endfunction
-  assign _26_ = \:771 (_36_, { _23_, _09_, _00_ }, { _25_, _21_, _03_ });
   function [0:0] \:772 ;
     input [0:0] a;
     input [2:0] b;
@@ -420,58 +403,75 @@ module bissc_clock_Brtl_688934845f22049cb14668832efa33d45013b6b9(clk_i, rst_i, g
         \:772  = a;
     endcase
   endfunction
-  assign _27_ = \:772 (_37_, { _37_, _17_, _01_ }, { _25_, _21_, _03_ });
-  function [7:0] \:773 ;
+  assign _26_ = \:772 (_36_, { _23_, _09_, _00_ }, { _25_, _21_, _03_ });
+  function [0:0] \:773 ;
+    input [0:0] a;
+    input [2:0] b;
+    input [2:0] s;
+    (* parallel_case *)
+    casez (s)
+      3'b??1:
+        \:773  = b[0:0];
+      3'b?1?:
+        \:773  = b[1:1];
+      3'b1??:
+        \:773  = b[2:2];
+      default:
+        \:773  = a;
+    endcase
+  endfunction
+  assign _27_ = \:773 (_37_, { _37_, _17_, _01_ }, { _25_, _21_, _03_ });
+  function [7:0] \:774 ;
     input [7:0] a;
     input [23:0] b;
     input [2:0] s;
     (* parallel_case *)
     casez (s)
       3'b??1:
-        \:773  = b[7:0];
+        \:774  = b[7:0];
       3'b?1?:
-        \:773  = b[15:8];
+        \:774  = b[15:8];
       3'b1??:
-        \:773  = b[23:16];
+        \:774  = b[23:16];
       default:
-        \:773  = a;
+        \:774  = a;
     endcase
   endfunction
-  assign _28_ = \:773 (clock_timer, { clock_timer, _18_, half_clk_period_i }, { _25_, _21_, _03_ });
-  function [1:0] \:774 ;
+  assign _28_ = \:774 (clock_timer, { clock_timer, _18_, half_clk_period_i }, { _25_, _21_, _03_ });
+  function [1:0] \:775 ;
     input [1:0] a;
     input [5:0] b;
     input [2:0] s;
     (* parallel_case *)
     casez (s)
       3'b??1:
-        \:774  = b[1:0];
+        \:775  = b[1:0];
       3'b?1?:
-        \:774  = b[3:2];
+        \:775  = b[3:2];
       3'b1??:
-        \:774  = b[5:4];
+        \:775  = b[5:4];
       default:
-        \:774  = a;
+        \:775  = a;
     endcase
   endfunction
-  assign _29_ = \:774 (clock_state, { _24_, _10_, _02_ }, { _25_, _21_, _03_ });
-  function [5:0] \:775 ;
+  assign _29_ = \:775 (clock_state, { _24_, _10_, _02_ }, { _25_, _21_, _03_ });
+  function [5:0] \:776 ;
     input [5:0] a;
     input [17:0] b;
     input [2:0] s;
     (* parallel_case *)
     casez (s)
       3'b??1:
-        \:775  = b[5:0];
+        \:776  = b[5:0];
       3'b?1?:
-        \:775  = b[11:6];
+        \:776  = b[11:6];
       3'b1??:
-        \:775  = b[17:12];
+        \:776  = b[17:12];
       default:
-        \:775  = a;
+        \:776  = a;
     endcase
   endfunction
-  assign _30_ = \:775 (rising_counter, { rising_counter, _14_, n_rising_edges_i }, { _25_, _21_, _03_ });
+  assign _30_ = \:776 (rising_counter, { rising_counter, _14_, n_rising_edges_i }, { _25_, _21_, _03_ });
   assign _31_ = rst_i ? 1'h0 : _26_;
   assign _32_ = rst_i ? _37_ : _27_;
   assign _33_ = rst_i ? clock_timer : _28_;
@@ -575,23 +575,6 @@ module bissc_clock_Brtl_f70af62ee4cd5ae2b0ba027eb472ca7c56eacd2e(clk_i, rst_i, g
   assign _20_ = _19_ ? 1'h0 : _33_;
   assign _21_ = _19_ ? 2'h0 : clock_state;
   assign _22_ = clock_state == 2'h2;
-  function [0:0] \:702 ;
-    input [0:0] a;
-    input [2:0] b;
-    input [2:0] s;
-    (* parallel_case *)
-    casez (s)
-      3'b??1:
-        \:702  = b[0:0];
-      3'b?1?:
-        \:702  = b[1:1];
-      3'b1??:
-        \:702  = b[2:2];
-      default:
-        \:702  = a;
-    endcase
-  endfunction
-  assign _23_ = \:702 (_33_, { _20_, _33_, _00_ }, { _22_, _18_, _03_ });
   function [0:0] \:703 ;
     input [0:0] a;
     input [2:0] b;
@@ -608,58 +591,75 @@ module bissc_clock_Brtl_f70af62ee4cd5ae2b0ba027eb472ca7c56eacd2e(clk_i, rst_i, g
         \:703  = a;
     endcase
   endfunction
-  assign _24_ = \:703 (_34_, { _34_, _14_, _01_ }, { _22_, _18_, _03_ });
-  function [7:0] \:704 ;
+  assign _23_ = \:703 (_33_, { _20_, _33_, _00_ }, { _22_, _18_, _03_ });
+  function [0:0] \:704 ;
+    input [0:0] a;
+    input [2:0] b;
+    input [2:0] s;
+    (* parallel_case *)
+    casez (s)
+      3'b??1:
+        \:704  = b[0:0];
+      3'b?1?:
+        \:704  = b[1:1];
+      3'b1??:
+        \:704  = b[2:2];
+      default:
+        \:704  = a;
+    endcase
+  endfunction
+  assign _24_ = \:704 (_34_, { _34_, _14_, _01_ }, { _22_, _18_, _03_ });
+  function [7:0] \:705 ;
     input [7:0] a;
     input [23:0] b;
     input [2:0] s;
     (* parallel_case *)
     casez (s)
       3'b??1:
-        \:704  = b[7:0];
+        \:705  = b[7:0];
       3'b?1?:
-        \:704  = b[15:8];
+        \:705  = b[15:8];
       3'b1??:
-        \:704  = b[23:16];
+        \:705  = b[23:16];
       default:
-        \:704  = a;
+        \:705  = a;
     endcase
   endfunction
-  assign _25_ = \:704 (clock_timer, { clock_timer, _15_, half_clk_period_i }, { _22_, _18_, _03_ });
-  function [1:0] \:705 ;
+  assign _25_ = \:705 (clock_timer, { clock_timer, _15_, half_clk_period_i }, { _22_, _18_, _03_ });
+  function [1:0] \:706 ;
     input [1:0] a;
     input [5:0] b;
     input [2:0] s;
     (* parallel_case *)
     casez (s)
       3'b??1:
-        \:705  = b[1:0];
+        \:706  = b[1:0];
       3'b?1?:
-        \:705  = b[3:2];
+        \:706  = b[3:2];
       3'b1??:
-        \:705  = b[5:4];
+        \:706  = b[5:4];
       default:
-        \:705  = a;
+        \:706  = a;
     endcase
   endfunction
-  assign _26_ = \:705 (clock_state, { _21_, _09_, _02_ }, { _22_, _18_, _03_ });
-  function [5:0] \:706 ;
+  assign _26_ = \:706 (clock_state, { _21_, _09_, _02_ }, { _22_, _18_, _03_ });
+  function [5:0] \:707 ;
     input [5:0] a;
     input [17:0] b;
     input [2:0] s;
     (* parallel_case *)
     casez (s)
       3'b??1:
-        \:706  = b[5:0];
+        \:707  = b[5:0];
       3'b?1?:
-        \:706  = b[11:6];
+        \:707  = b[11:6];
       3'b1??:
-        \:706  = b[17:12];
+        \:707  = b[17:12];
       default:
-        \:706  = a;
+        \:707  = a;
     endcase
   endfunction
-  assign _27_ = \:706 (rising_counter, { rising_counter, _12_, n_rising_edges_i }, { _22_, _18_, _03_ });
+  assign _27_ = \:707 (rising_counter, { rising_counter, _12_, n_rising_edges_i }, { _22_, _18_, _03_ });
   assign _28_ = rst_i ? 1'h0 : _23_;
   assign _29_ = rst_i ? _34_ : _24_;
   assign _30_ = rst_i ? clock_timer : _25_;
@@ -761,57 +761,57 @@ module bissc_extended_clock_Brtl(clk_i, rst_i, go_i, n_rising_edges_i, half_clk_
   assign _17_ = _16_ ? 1'h1 : 1'h0;
   assign _18_ = _16_ ? 2'h0 : state;
   assign _19_ = state == 2'h2;
-  function [0:0] \:528 ;
+  function [0:0] \:529 ;
     input [0:0] a;
     input [2:0] b;
     input [2:0] s;
     (* parallel_case *)
     casez (s)
       3'b??1:
-        \:528  = b[0:0];
+        \:529  = b[0:0];
       3'b?1?:
-        \:528  = b[1:1];
+        \:529  = b[1:1];
       3'b1??:
-        \:528  = b[2:2];
+        \:529  = b[2:2];
       default:
-        \:528  = a;
+        \:529  = a;
     endcase
   endfunction
-  assign _20_ = \:528 (1'h0, { _17_, 2'h0 }, { _19_, _13_, _08_ });
-  function [0:0] \:531 ;
+  assign _20_ = \:529 (1'h0, { _17_, 2'h0 }, { _19_, _13_, _08_ });
+  function [0:0] \:532 ;
     input [0:0] a;
     input [2:0] b;
     input [2:0] s;
     (* parallel_case *)
     casez (s)
       3'b??1:
-        \:531  = b[0:0];
+        \:532  = b[0:0];
       3'b?1?:
-        \:531  = b[1:1];
+        \:532  = b[1:1];
       3'b1??:
-        \:531  = b[2:2];
+        \:532  = b[2:2];
       default:
-        \:531  = a;
+        \:532  = a;
     endcase
   endfunction
-  assign _21_ = \:531 (1'h0, { 1'h0, _11_, 1'h0 }, { _19_, _13_, _08_ });
-  function [1:0] \:532 ;
+  assign _21_ = \:532 (1'h0, { 1'h0, _11_, 1'h0 }, { _19_, _13_, _08_ });
+  function [1:0] \:533 ;
     input [1:0] a;
     input [5:0] b;
     input [2:0] s;
     (* parallel_case *)
     casez (s)
       3'b??1:
-        \:532  = b[1:0];
+        \:533  = b[1:0];
       3'b?1?:
-        \:532  = b[3:2];
+        \:533  = b[3:2];
       3'b1??:
-        \:532  = b[5:4];
+        \:533  = b[5:4];
       default:
-        \:532  = a;
+        \:533  = a;
     endcase
   endfunction
-  assign _22_ = \:532 (state, { _18_, _12_, _07_ }, { _19_, _13_, _08_ });
+  assign _22_ = \:533 (state, { _18_, _12_, _07_ }, { _19_, _13_, _08_ });
   assign _23_ = rst_i ? _26_ : _20_;
   assign _24_ = rst_i ? 1'h0 : _21_;
   assign _25_ = rst_i ? 2'h0 : _22_;
@@ -1756,7 +1756,7 @@ module spi_registers_Brtl(clk_i, rst_i, cs_i, sck_i, rx_i, trig_i, pos_i, pos_va
   assign _051_ = rst_i ? 8'h00 : n_over;
   assign _052_ = rst_i ? 1'h0 : _034_;
   assign _053_ = rst_i ? 6'h00 : _035_;
-  assign _054_ = rst_i ? io_dir : _036_;
+  assign _054_ = rst_i ? 6'h00 : _036_;
   assign _055_ = n_over + 8'h01;
   assign _056_ = _057_ ? _055_ : _051_;
   assign _057_ = new_pos & pos_valid_i;
